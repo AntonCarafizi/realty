@@ -1,0 +1,24 @@
+id: ID
+title: Title
+description: Description
+price: Price
+images: Images
+images.jpg: Images (JPG files)
+delete.image: Delete image
+main.image: Main image
+thumbnail: Thumbnail
+room.qty: Room quantity
+actions: Actions
+no.records.found: No records found
+item: Item
+show.item: Show item
+edit.item: Edit item
+back.to.list: Back to list
+update.item: Update item
+delete.item: Delete item
+create.new.item: Create new item
+save.item: Save Item
+item.index: Item index
+new.item: New item
+move.image.up: Move image up
+move.image.down: Move image down

@@ -1,0 +1,8 @@
+{
+  "name": "realty",
+  "version": "1.0.0",
+  "description": "This is a realty selling project developed with Symfony",
+  "main": "index.js",
+  "author": "Anton Carafizi <anton.carafizi@gmail.com>",
+  "license": "MIT"
+}

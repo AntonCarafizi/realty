@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}edit.item{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% block user %}{{ parent() }}{% endblock %}
+
+    <h1>{% trans %}edit.item{% endtrans %}</h1>
+
+    {{ include('item/_form.html.twig', {'button_label': 'update.item'|trans}) }}
+
+    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+
+    {{ include('item/_delete_form.html.twig') }}
+{% endblock %}

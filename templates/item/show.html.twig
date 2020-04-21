@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}item{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% block user %}{{ parent() }}{% endblock %}
+
+    <h1>{% trans %}item{% endtrans %}</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>{% trans %}id{% endtrans %}</th>
+            <td>{{ item.id }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}title{% endtrans %}</th>
+            <td>{{ item.title }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}description{% endtrans %}</th>
+            <td>{{ item.description }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}price{% endtrans %}</th>
+            <td>{{ item.price }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}images{% endtrans %}</th>
+            <td>
+                <ul>
+                    {% for image in item.images %}
+                        <li>
+                            <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                               target="_blank">
+                                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="{{ item.title }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>{% trans %}room.qty{% endtrans %}</th>
+            <td>{{ item.roomQty }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+
+    <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+
+    {{ include('item/_delete_form.html.twig') }}
+{% endblock %}

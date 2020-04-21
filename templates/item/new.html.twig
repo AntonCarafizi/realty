@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}new.item{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% block user %}{{ parent() }}{% endblock %}
+
+    <h1>{% trans %}create.new.item{% endtrans %}</h1>
+
+    {{ include('item/_form.html.twig') }}
+
+    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+{% endblock %}

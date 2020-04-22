@@ -4,5 +4,10 @@
   "description": "This is a realty selling project developed with Symfony",
   "main": "index.js",
   "author": "Anton Carafizi <anton.carafizi@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.5.0",
+    "popper.js": "^1.16.1"
+  }
 }

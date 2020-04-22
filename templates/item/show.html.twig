@@ -3,7 +3,6 @@
 {% block title %}{% trans %}item{% endtrans %}{% endblock %}
 
 {% block body %}
-    {% block user %}{{ parent() }}{% endblock %}
 
     <h1>{% trans %}item{% endtrans %}</h1>
 
@@ -18,8 +17,20 @@
             <td>{{ item.title }}</td>
         </tr>
         <tr>
+            <th>{% trans %}type{% endtrans %}</th>
+            <td>{{ item.type }}</td>
+        </tr>
+        <tr>
             <th>{% trans %}description{% endtrans %}</th>
             <td>{{ item.description }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}area{% endtrans %}</th>
+            <td>{{ item.area }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}is.for.rent{% endtrans %}</th>
+            <td>{{ item.isForRent }}</td>
         </tr>
         <tr>
             <th>{% trans %}price{% endtrans %}</th>
@@ -33,7 +44,8 @@
                         <li>
                             <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
                                target="_blank">
-                                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="{{ item.title }}">
+                                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
+                                     alt="{{ item.title }}">
                             </a>
                         </li>
                     {% endfor %}
@@ -48,8 +60,11 @@
     </table>
 
     <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+    {% if app.user %}
+        {% if item.user.id == app.user.id %}
+            <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+            {{ include('item/_delete_form.html.twig') }}
+        {% endif %}
+    {% endif %}
 
-    <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
-
-    {{ include('item/_delete_form.html.twig') }}
 {% endblock %}

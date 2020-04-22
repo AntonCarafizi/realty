@@ -1,17 +1,26 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
 <ul>
-    {% for key, image in item.images %}
-        <li><a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-               target="_blank">
-                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="{{ item.title }}">
-            </a>
-            <button class="btn" id="image_delete" name="image_delete" value="{{ key }}">{% trans %}delete.image{% endtrans %}</button>
-            <button class="btn" id="image_main" name="image_main" value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
-            <button class="btn" id="image_move_up" name="image_move_up" value="{{ key }}">{% trans %}move.image.up{% endtrans %}</button>
-            <button class="btn" id="image_move_down" name="image_move_down" value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
-        </li>
-    {% endfor %}
+    {% if (item.images) %}
+        {% for key, image in item.images %}
+            <li><a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                   target="_blank">
+                    <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
+                         alt="{{ item.title }}">
+                </a>
+                <button class="btn" id="image_delete" name="image_delete"
+                        value="{{ key }}">{% trans %}delete.image{% endtrans %}</button>
+                {% if (item.images|length > 1) %}
+                    <button class="btn" id="image_main" name="image_main"
+                            value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
+                    <button class="btn" id="image_move_up" name="image_move_up"
+                            value="{{ key }}">{% trans %}move.image.up{% endtrans %}</button>
+                    <button class="btn" id="image_move_down" name="image_move_down"
+                            value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
+                {% endif %}
+            </li>
+        {% endfor %}
+    {% endif %}
 </ul>
 <button class="btn">{{ button_label|default('save.item'|trans) }}</button>
 {{ form_end(form) }}

@@ -41,6 +41,33 @@ class Item
      */
     private $room_qty;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_for_rent;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $area;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $type;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="items")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $created;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,4 +134,65 @@ class Item
 
         return $this;
     }
+
+    public function getIsForRent(): ?bool
+    {
+        return $this->is_for_rent;
+    }
+
+    public function setIsForRent(bool $is_for_rent): self
+    {
+        $this->is_for_rent = $is_for_rent;
+
+        return $this;
+    }
+
+    public function getArea(): ?float
+    {
+        return $this->area;
+    }
+
+    public function setArea(float $area): self
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
 }

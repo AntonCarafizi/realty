@@ -3,49 +3,58 @@
 {% block title %}{% trans %}item.index{% endtrans %}{% endblock %}
 
 {% block body %}
-    {% block user %}{{ parent() }}{% endblock %}
 
     <h1>{% trans %}item.index{% endtrans %}</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>{% trans %}id{% endtrans %}</th>
-            <th>{% trans %}title{% endtrans %}</th>
-            <th>{% trans %}description{% endtrans %}</th>
-            <th>{% trans %}price{% endtrans %}</th>
-            <th>{% trans %}thumbnail{% endtrans %}</th>
-            <th>{% trans %}room.qty{% endtrans %}</th>
-            <th>{% trans %}actions{% endtrans %}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.price }}</td>
-                <td>
-                    {% if item.images %}
-                    <a href="{{ path('item_show', {'id': item.id}) }}">
-                        <img src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="{{ item.title }}">
-                    </a>
-                    {% endif %}
-                </td>
-                <td>{{ item.roomQty }}</td>
-                <td>
-                    <a href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
-                    <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">{% trans %}no.records.found{% endtrans %}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <ul>
+            {% for item in items %}
+                <li>
+                    <ul>
+                        <li><h2>{{ item.title }}</h2></li>
+                        <li>{{ item.type }}</li>
+                        <li>{{ item.description }}</li>
+                        <li>{{ item.area }}</li>
+                        <li>{% if (item.isForRent == 1) %}
+                                {% trans %}rent{% endtrans %}
+                            {% else %}
+                                {% trans %}sale{% endtrans %}
+                            {% endif %}
+                        </li>
+                        <li>{{ item.price }}</li>
+                        <li>
+                            {% if item.images %}
+                                <a href="{{ path('item_show', {'id': item.id}) }}">
+                                    <img src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                                         alt="{{ item.title }}">
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li>{{ item.roomQty }}</li>
+                        <li>{% if item.created.date|date("m/d/Y") == "now"|date("m/d/Y") %}
+                                {% trans %}new{% endtrans %}
+                            {% else %}
+                                {{ item.created.date|date("m/d/Y") }}
+                            {% endif %}
+                        </li>
+                        <li>
+                            <a href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
+                            {% if app.user %}
+                                {% if item.user.id == app.user.id %}
+                                    <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                                    {{ include('item/_delete_form.html.twig') }}
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+            {% else %}
+                <span>{% trans %}no.records.found{% endtrans %}</span>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if app.user %}
+        <a href="{{ path('item_new') }}">{% trans %}create.new.item{% endtrans %}</a>
+    {% endif %}
 
-    <a href="{{ path('item_new') }}">{% trans %}create.new.item{% endtrans %}</a>
 {% endblock %}

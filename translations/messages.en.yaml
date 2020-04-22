@@ -11,14 +11,41 @@ room.qty: Room quantity
 actions: Actions
 no.records.found: No records found
 item: Item
+user: User
 show.item: Show item
 edit.item: Edit item
+show.user: Show user
+edit.user: Edit user
 back.to.list: Back to list
 update.item: Update item
 delete.item: Delete item
 create.new.item: Create new item
+create.new.user: Create new user
 save.item: Save Item
 item.index: Item index
 new.item: New item
 move.image.up: Move image up
 move.image.down: Move image down
+register: Register
+login: Login
+sign.in: Sign in
+logout: Logout
+please.sign.in: Please sign in
+username: Username
+email: Email
+password: Password
+plain.password: Plain password
+agree.terms: Agree terms
+is.for: Is for
+rent: Rent
+sale: Sale
+is.for.rent: Is for rent
+area: Area
+you.are.logged.in.as: You are logged in as
+type: Type
+apartment: Apartment
+house: House
+garage: Garage
+your.best.realty.partner: Your best realty partner
+created: Created
+new: New

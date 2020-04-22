@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ImageService;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route("/item")
@@ -29,17 +30,19 @@ class ItemController extends AbstractController
     /**
      * @Route("/new", name="item_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ImageService $imageService): Response
+    public function new(Request $request, AuthenticationUtils $authenticationUtils, ImageService $imageService): Response
     {
         $item = new Item();
+        $user = $this->getUser();
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFiles = $form->get('images')->getData();
             $images = $imageService->uploadImages($imageFiles);
-
             $item->setImages($images);
+            $item->setCreated(new \DateTime("now"));
+            $user->addItem($item);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($item);
             $entityManager->flush();
@@ -69,6 +72,11 @@ class ItemController extends AbstractController
      */
     public function edit(Request $request, Item $item, ImageService $imageService): Response
     {
+
+        if ($item->getUser()->getId() != $this->getUser()->getId()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 

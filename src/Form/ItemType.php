@@ -4,9 +4,13 @@ namespace App\Form;
 
 use App\Entity\Item;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,8 +24,19 @@ class ItemType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'title'
             ])
+            ->add('type', ChoiceType::class, [
+                'label' => 'type',
+                'choices' => [
+                    'apartment' => 0,
+                    'house' => 1,
+                    'garage' => 2
+                ]
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'description'
+            ])
+            ->add('area', IntegerType::class, [
+                'label' => 'area'
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'price'
@@ -38,6 +53,13 @@ class ItemType extends AbstractType
             ])
             ->add('room_qty', NumberType::class, [
                 'label' => 'room.qty'
+            ])
+            ->add('is_for_rent', ChoiceType::class, [
+                'label' => 'is.for',
+                'choices'  => [
+                    'rent' => true,
+                    'sale' => false,
+                ],
             ])
         ;
     }

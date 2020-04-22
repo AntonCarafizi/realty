@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,11 +41,24 @@ class User implements UserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
+     */
+    private $items;
+
+
     public function __construct()
     {
         $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
+
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,7 +80,14 @@ class User implements UserInterface
 
     public function getRoles(): ?array
     {
-        return array('ROLE_USER');
+        return $this->roles;
+    }
+
+    public function setRoles(): self
+    {
+        $this->roles = array('ROLE_USER');
+
+        return $this;
     }
 
     public function eraseCredentials()
@@ -100,6 +122,37 @@ class User implements UserInterface
     public function getSalt(): ?string
     {
         return NULL;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+            // set the owning side to null (unless already changed)
+            if ($item->getUser() === $this) {
+                $item->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

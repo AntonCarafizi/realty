@@ -73,8 +73,10 @@ class ItemController extends AbstractController
     public function edit(Request $request, Item $item, ImageService $imageService): Response
     {
 
-        if ($item->getUser()->getId() != $this->getUser()->getId()) {
-            return $this->redirectToRoute('app_login');
+        if ($this->getUser()) {
+            if ($item->getUser()->getId() != $this->getUser()->getId()) {
+                return $this->redirectToRoute('app_login');
+            }
         }
 
         $form = $this->createForm(ItemType::class, $item);
@@ -96,11 +98,11 @@ class ItemController extends AbstractController
             }
 
             if ($request->get('image_move_up') !== null and $request->get('image_move_up') !== "0") {
-                $imageService->moveElement($images, $request->get('image_move_up'), $request->get('image_move_up')-1);
+                $imageService->moveElement($images, $request->get('image_move_up'), $request->get('image_move_up') - 1);
             }
 
             if ($request->get('image_move_down') !== null) {
-                $imageService->moveElement($images, $request->get('image_move_down'), $request->get('image_move_down')+1);
+                $imageService->moveElement($images, $request->get('image_move_down'), $request->get('image_move_down') + 1);
             }
 
             $item->setImages($images);

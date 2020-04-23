@@ -67,6 +67,11 @@ class Item
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $location = [];
+
 
     public function getId(): ?int
     {
@@ -191,6 +196,18 @@ class Item
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getLocation(): ?array
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?array $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

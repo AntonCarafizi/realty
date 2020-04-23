@@ -56,6 +56,17 @@
             <th>{% trans %}room.qty{% endtrans %}</th>
             <td>{{ item.roomQty }}</td>
         </tr>
+
+        {% if item.location %}
+            <tr>
+                <th>{% trans %}location{% endtrans %}</th>
+                <td>
+                    {% for field in item.location %}
+                        {{ field }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
 

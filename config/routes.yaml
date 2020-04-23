@@ -1,4 +1,12 @@
 index:
-    path: /
+    path: /item
     controller: App\Controller\ItemController::index
 
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    requirements:
+        #_locale: '%app_locales%'
+    defaults:
+        template: default/homepage.html.twig
+        #_locale: '%locale%'

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body %}
+    {% block homepage %}
+        <span>{% trans %}go.to{% endtrans %}</span> <a
+            href="{{ path('item_index') }}">{% trans %}items.page{% endtrans %}</a>
+    {% endblock %}
+{% endblock %}

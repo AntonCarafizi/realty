@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
@@ -8,28 +8,28 @@
 <body>
 {% block header %}
     <header>
-        <a href="{{ path('item_index') }}"><h1>{{ app.request.server.get('SERVER_NAME')|upper }} - {% trans %}your.best.realty.partner{% endtrans %}</h1></a>
+        <h1>{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} {% trans %}your.best.realty.partner{% endtrans %}</h1>
     </header>
-{% endblock %}
-{% block user %}
-    {% if app.user %}
-        <div class="mb-3"><span>{% trans %}you.are.logged.in.as{% endtrans %}</span>
-            <a href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>,
-            <a href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
-        </div>
-    {% else %}
-        <div class="mb-3">
-            {% if app.request.attributes.get('_route') != 'app_login' %}
-                <a href="{{ path('app_login') }}">{% trans %}sign.in{% endtrans %}</a>
-            {% endif %}
-            {% if app.request.attributes.get('_route') != 'app_register' %}
-                <a href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
-            {% endif %}
-        </div>
-    {% endif %}
 {% endblock %}
 <main>
     <div role="main">
+        {% block user %}
+            {% if app.user %}
+                <div class="mb-3"><span>{% trans %}you.are.logged.in.as{% endtrans %}</span>
+                    <a href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>,
+                    <a href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
+                </div>
+            {% else %}
+                <div class="mb-3">
+                    {% if app.request.attributes.get('_route') != 'app_login' %}
+                        <a href="{{ path('app_login') }}">{% trans %}sign.in{% endtrans %}</a>
+                    {% endif %}
+                    {% if app.request.attributes.get('_route') != 'app_register' %}
+                        <a href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endblock %}
         {% block body %}
         {% endblock %}
     </div>

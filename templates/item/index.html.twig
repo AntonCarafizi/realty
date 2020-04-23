@@ -37,6 +37,13 @@
                                 {{ item.created.date|date("m/d/Y") }}
                             {% endif %}
                         </li>
+                        {% if item.location %}
+                            <li>
+                                {% for field in item.location %}
+                                {{ field }}
+                                {% endfor %}
+                            </li>
+                        {% endif %}
                         <li>
                             <a href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
                             {% if app.user %}

@@ -51,6 +51,11 @@ class User implements UserInterface
      */
     private $items;
 
+    /**
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $lang;
+
 
     public function __construct()
     {
@@ -151,6 +156,18 @@ class User implements UserInterface
                 $item->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLang(): ?string
+    {
+        return $this->lang;
+    }
+
+    public function setLang(?string $lang): self
+    {
+        $this->lang = $lang;
 
         return $this;
     }

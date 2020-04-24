@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +20,13 @@ class UserType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'email'
+            ])
+            ->add('lang', ChoiceType::class, [
+                'label' => 'language',
+                'choices' => [
+                    'english' => 'en',
+                    'german' => 'de'
+                ]
             ])
             //->add('password')
         ;

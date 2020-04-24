@@ -1,0 +1,66 @@
+id: ID
+title: Titel
+description: Beschreibung
+price: Preis
+images: Bilder
+images.jpg: Bild (JPG datei)
+delete.image: Bild löschen
+main.image: Hauptbild
+thumbnail: Thumbnail
+room.qty: Raummenge
+actions: Actions
+no.records.found: No records found
+item: Artikel
+user: Benutzer
+show.item: Artikel anzeigen
+edit.item: Artikel bearbeiten
+show.user: Benutzer anzeigen
+edit.user: Benutzer bearbeiten
+back.to.list: Zurück zur Liste
+update.item: Artikel aktualisieren
+delete.item: Artikel löschen
+delete.user: Benutzer löschen
+create.new.item: Neues Artikel erstellen
+save.item: Artikel speichern
+save.user: Benutzer speichern
+item.index: Artikel index
+user.index: Benutzer index
+new.item: Neu Artikel
+move.image.up: Move image up
+move.image.down: Move image down
+register: Registrieren
+login: Login
+sign.in: Anmelden
+logout: Logout
+please.sign.in: Bitte anmelden
+username: Username
+email: Email
+password: Password
+plain.password: Plain password
+agree.terms: Akzeptieren
+is.for: Ist für
+rent: Mieten
+sale: Verkaufen
+is.for.rent: Is for rent
+area: Wohnfläche
+you.are.logged.in.as: Sie sind angemeldet als
+type: Typ
+apartment: Apartment
+house: House
+garage: Garage
+your.best.realty.partner: Ihr bester Immobilienpartner
+created: Created
+new: Neu
+location: Lokalisierung
+country: Land
+zipCode: Zip Code
+address: Adresse
+choose.country: Choose a country
+welcome.to: Willkommen bei
+go.to: Go to
+items.page: Artikel page
+my.items: Meine Artikel
+update: Aktualisieren
+english: English
+german: Deutsch
+language: Sprache

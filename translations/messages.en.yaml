@@ -19,10 +19,13 @@ edit.user: Edit user
 back.to.list: Back to list
 update.item: Update item
 delete.item: Delete item
+delete.user: Delete user
 create.new.item: Create new item
 create.new.user: Create new user
 save.item: Save Item
+save.user: Save User
 item.index: Item index
+user.index: User index
 new.item: New item
 move.image.up: Move image up
 move.image.down: Move image down
@@ -57,3 +60,8 @@ choose.country: Choose a country
 welcome.to: Welcome to
 go.to: Go to
 items.page: Items page
+my.items: My items
+update: Update
+english: English
+german: Deutsch
+language: Language

@@ -13,12 +13,12 @@ use App\Service\ImageService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * @Route("/item")
+ * @Route("/item",  name="item_")
  */
 class ItemController extends AbstractController
 {
     /**
-     * @Route("/", name="item_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(ItemRepository $itemRepository): Response
     {
@@ -28,7 +28,20 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="item_new", methods={"GET","POST"})
+     * @Route("/me", name="filter", methods={"GET"})
+     */
+    public function filter(Request $request, ItemRepository $itemRepository): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('item/index.html.twig', [
+            'items' => $itemRepository->findBy(['user' => $user]),
+        ]);
+    }
+
+
+    /**
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request, AuthenticationUtils $authenticationUtils, ImageService $imageService): Response
     {
@@ -57,7 +70,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="item_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Item $item): Response
     {
@@ -68,7 +81,7 @@ class ItemController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="item_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Item $item, ImageService $imageService): Response
     {
@@ -120,7 +133,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="item_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Item $item): Response
     {

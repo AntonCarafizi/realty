@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}{% trans %}user.index{% endtrans %}{% endblock %}
 
 {% block body %}
     <h1>User index</h1>
@@ -8,10 +8,10 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>actions</th>
+            <th>{% trans %}id{% endtrans %}</th>
+            <th>{% trans %}username{% endtrans %}</th>
+            <th>{% trans %}email{% endtrans %}</th>
+            <th>{% trans %}actions{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -23,7 +23,9 @@
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">{% trans %}show.user{% endtrans %}</a>
                     {% if app.user %}
-                        <a href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit.user{% endtrans %}</a>
+                        {% if user.id == app.user.id %}
+                            <a href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit.user{% endtrans %}</a>
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
@@ -34,7 +36,4 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if app.user %}
-        <a href="{{ path('user_new') }}">{% trans %}create.new.user{% endtrans %}</a>
-    {% endif %}
 {% endblock %}

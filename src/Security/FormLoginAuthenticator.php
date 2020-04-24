@@ -96,7 +96,9 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('item_index'));
+        $user = $token->getUser();
+
+        return new RedirectResponse($this->urlGenerator->generate('item_index', ['_locale' => $user->getLang()]));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

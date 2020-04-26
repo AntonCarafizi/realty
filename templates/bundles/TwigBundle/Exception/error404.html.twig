@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}page.not.found{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}page.not.found{% endtrans %}</h1>
+    <p>{% trans %}page.not.found.text{% endtrans %} <a href="{{ path('item_index', {'_locale' : app.request.locale}) }}">{% trans %}return.homepage{% endtrans %}</a>.</p>
+{% endblock %}

@@ -11,13 +11,26 @@
         <h1>{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} {% trans %}your.best.realty.partner{% endtrans %}</h1>
     </header>
 {% endblock %}
+{% block navigation %}
+    <nav>
+        <ul>
+            <li><a href="{{ path('item_search') }}">{% trans %}all.items{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'sale'}) }}">{% trans %}items.for.sale{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'rent'}) }}">{% trans %}items.for.rent{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'house'}) }}">{% trans %}house{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'apartment'}) }}">{% trans %}apartment{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'garage'}) }}">{% trans %}garage{% endtrans %}</a></li>
+            <li><a href="{{ path('item_search', {'filter' : 'new'}) }}">{% trans %}new.items{% endtrans %}</a></li>
+        </ul>
+    </nav>
+{% endblock %}
 <main>
     <div role="main">
         {% block user %}
             {% if app.user %}
                 <div class="mb-3"><span>{% trans %}you.are.logged.in.as{% endtrans %}</span>
                     <a href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>,
-                    <a href="{{ path('item_filter') }}">{% trans %}my.items{% endtrans %}</a>,
+                    <a href="{{ path('item_search', {'filter' : 'user'}) }}">{% trans %}my.items{% endtrans %}</a>,
                     <a href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
                 </div>
             {% else %}

@@ -2,14 +2,13 @@
     {{ form_widget(form) }}
 <ul>
     {% if (item.images) %}
+        <input type="hidden" name="_token" value="{{ csrf_token('delete_image' ~ item.id) }}">
         {% for key, image in item.images %}
             <li><a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
                    target="_blank">
                     <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
                          alt="{{ item.title }}">
                 </a>
-                <button class="btn" id="image_delete" name="image_delete"
-                        value="{{ key }}">{% trans %}delete.image{% endtrans %}</button>
                 {% if (item.images|length > 1) %}
                     <button class="btn" id="image_main" name="image_main"
                             value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
@@ -18,6 +17,7 @@
                     <button class="btn" id="image_move_down" name="image_move_down"
                             value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
                 {% endif %}
+                <button name="image_delete" value="{{ key }}" class="btn">{% trans %}delete.image{% endtrans %}</button>
             </li>
         {% endfor %}
     {% endif %}

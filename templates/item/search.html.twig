@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}item.index{% endtrans %}{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans %}item.index{% endtrans %}</h1>
+
+    <div class="container">
+        {% if (items) %}
+            {# total items count #}
+            <div class="count">
+            {% trans %}there.are{% endtrans %} {{ items.getTotalItemCount }} {% trans %}items{% endtrans %}
+            </div>
+            <ul>
+                {% for item in items %}
+                    <li>
+                        <ul>
+                            <li><h2>{{ item.title }}</h2></li>
+                            <li>{{ item.type }}</li>
+                            <li>{{ item.description }}</li>
+                            <li>{{ item.area }}</li>
+                            <li>{% if (item.isForRent == 1) %}
+                                    {% trans %}rent{% endtrans %}
+                                {% else %}
+                                    {% trans %}sale{% endtrans %}
+                                {% endif %}
+                            </li>
+                            <li>{{ item.price }}</li>
+                            <li>
+                                {% if item.images %}
+                                    <a href="{{ path('item_show', {'id': item.id}) }}">
+                                        <img src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                                             alt="{{ item.title }}">
+                                    </a>
+                                {% endif %}
+                            </li>
+                            <li>{{ item.roomQty }}</li>
+                            <li>{% if item.created.date|date("m/d/Y") == "now"|date("m/d/Y") %}
+                                    {% trans %}new{% endtrans %}
+                                {% else %}
+                                    {{ item.created.date|date("m/d/Y") }}
+                                {% endif %}
+                            </li>
+                            {% if item.location %}
+                                <li>
+                                    {% for field in item.location %}
+                                        {{ field }}
+                                    {% endfor %}
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
+                                {% if app.user %}
+                                    {% if item.user.id == app.user.id %}
+                                        <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                                        {{ include('item/_delete_form.html.twig') }}
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+            {{ knp_pagination_render(items) }}
+        {% else %}
+            <span>{% trans %}no.records.found{% endtrans %}</span>
+        {% endif %}
+    </div>
+    {% if app.user %}
+        <a href="{{ path('item_new') }}">{% trans %}create.new.item{% endtrans %}</a>
+    {% endif %}
+
+{% endblock %}

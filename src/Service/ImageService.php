@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ImageService
 {
@@ -19,18 +20,21 @@ class ImageService
 
     }
 
+    public function setImageExtension($file) {
+        return $file . '.jpg';
+    }
+
     public function uploadImages(&$imageFiles)
     {
         $images = array();
         foreach ($imageFiles as $imageFile) {
-            $filename = $imageFile->getFilename();
             $newFilename = uniqid();
             $images[] = $newFilename;
             // Move the file to the directory where images are stored
             try {
                 $imageFile->move(
                     $this->images_directory,
-                    $newFilename . '.jpg'
+                    $this->setImageExtension($newFilename)
                 );
             } catch (FileException $e) {
                 echo 'Error while uploading a file'; // ... handle exception if something happens during file upload
@@ -56,8 +60,14 @@ class ImageService
 
     public function deleteFile($file)
     {
-        unlink('media/image/' . $file);
-        $this->cacheManager->remove('media/image/' . $file);
+        $path = 'media/image/' . $file;
+        if (file_exists($path)) {
+            unlink($path);
+            $this->cacheManager->remove($path);
+        } else {
+            echo 'File not found.';
+        }
+
     }
 
 

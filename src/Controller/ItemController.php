@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,22 +21,48 @@ class ItemController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository): Response
+    public function index(): Response
     {
-        return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findAll(),
-        ]);
+        return $this->render('item/index.html.twig');
     }
 
     /**
-     * @Route("/me", name="filter", methods={"GET"})
+     * @Route("/search", name="search", methods={"GET"})
      */
-    public function filter(Request $request, ItemRepository $itemRepository): Response
+    public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
+        $queryFilter = $request->query->get('filter');
+        $now = new \DateTime("now");
+        $filterSet = [
+            'sale' => ['is_for_rent' => 0],
+            'rent' => ['is_for_rent' => 1],
+            'user' => ['user' => $user],
+            'house' => ['type' => 1],
+            'apartment' => ['type' => 0],
+            'garage' => ['type' => 2],
+            'new' => ['created' => $now]
+        ];
+        $criteria = [];
+        if ($queryFilter) {
+            foreach ($filterSet as $key => $value) {
+                if ($queryFilter == $key) {
+                    $criteria = $value;
+                }
+            }
+        }
 
-        return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findBy(['user' => $user]),
+        $query = ($queryFilter) ? $itemRepository->findBy($criteria) : $itemRepository->findAll();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            1/*limit per page*/
+        );
+        $pagination->setParam('q', null);
+
+        return $this->render('item/search.html.twig', [
+            'items' => $pagination,
         ]);
     }
 
@@ -103,7 +130,9 @@ class ItemController extends AbstractController
             $images = array_merge($item_images, $form_images);
 
             if ($request->get('image_delete') !== null) {
-                $imageService->deleteElement($images, $request->get('image_delete'), 1);
+                if ($this->isCsrfTokenValid('delete_image' . $item->getId(), $request->request->get('_token'))) {
+                    $imageService->deleteElement($images, $request->get('image_delete'), 1);
+                }
             }
 
             if ($request->get('image_main') !== null) {
@@ -135,9 +164,12 @@ class ItemController extends AbstractController
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Item $item): Response
+    public function delete(Request $request, Item $item, ImageService $imageService): Response
     {
         if ($this->isCsrfTokenValid('delete' . $item->getId(), $request->request->get('_token'))) {
+            $images = $item->getImages();
+            $images = array_map([$imageService, 'setImageExtension'], $images);
+            array_map([$imageService, 'deleteFile'], $images);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($item);
             $entityManager->flush();

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}page.error{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}page.error{% endtrans %}</h1>
+
+    <p>{% trans %}page.error.text{% endtrans %}<br>
+        <a href="{{ path('item_index', {'_locale' : app.request.locale}) }}">{% trans %}return.homepage{% endtrans %}</a>.</p>
+{% endblock %}

@@ -27,6 +27,7 @@ save.user: Save User
 item.index: Item index
 user.index: User index
 new.item: New item
+new.items: New items
 move.image.up: Move image up
 move.image.down: Move image down
 register: Register
@@ -42,7 +43,13 @@ agree.terms: Agree terms
 is.for: Is for
 rent: Rent
 sale: Sale
+for.sale: For sale
+items: items
+items.for.sale: Items for sale
 is.for.rent: Is for rent
+for.rent: For rent
+items.for.rent: Items for rent
+all.items: All items
 area: Area
 you.are.logged.in.as: You are logged in as
 type: Type
@@ -65,3 +72,10 @@ update: Update
 english: English
 german: Deutsch
 language: Language
+search: Search
+there.are: There are
+page.error: Page Error
+page.error.text: There is unexpected error on the page
+page.not.found: Page not found
+page.not.found.text: The requested page couldn't be located. Checkout for any URL misspelling or
+return.homepage: return to the homepage

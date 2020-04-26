@@ -26,6 +26,7 @@ save.user: Benutzer speichern
 item.index: Artikel index
 user.index: Benutzer index
 new.item: Neu Artikel
+new.items: Neue Artikel
 move.image.up: Move image up
 move.image.down: Move image down
 register: Registrieren
@@ -38,15 +39,21 @@ email: Email
 password: Password
 plain.password: Plain password
 agree.terms: Akzeptieren
-is.for: Ist für
+is.for: Ist zu
 rent: Mieten
 sale: Verkaufen
+for.sale: Zu verkaufen
+items: Artikel
+items.for.sale: Artikel zu verkaufen
 is.for.rent: Is for rent
+items.for.rent: Artikel zu mieten
+all.items: Alle Artikel
+for.rent: Zu mieten
 area: Wohnfläche
 you.are.logged.in.as: Sie sind angemeldet als
 type: Typ
-apartment: Apartment
-house: House
+apartment: Wohnung
+house: Haus
 garage: Garage
 your.best.realty.partner: Ihr bester Immobilienpartner
 created: Created
@@ -64,3 +71,10 @@ update: Aktualisieren
 english: English
 german: Deutsch
 language: Sprache
+search: Suchen
+there.are: Es gibt
+page.error: Seite Fehler
+page.error.text: Es gibt eine Fehler auf die Seite
+page.not.found: Seite nicht gefunden
+page.not.found.text: Die angeforderte Seite konnte nicht gefunden werden. Überprüfen Sie die URL auf Rechtschreibfehler oder
+return.homepage: gehen Sie zur Startseite zurück

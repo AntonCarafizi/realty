@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}{% trans %}homepage{% endtrans %}{% endblock %}
 
 {% block body %}
     {% block homepage %}
-        <span>{% trans %}go.to{% endtrans %}</span> <a href="{{ path('item_search') }}">{% trans %}items.page{% endtrans %}</a>
+        <div class="float-left">
+            <span>{% trans %}go.to{% endtrans %}</span> <a class="btn btn-primary" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}items.page{% endtrans %}</a>
+        </div>
     {% endblock %}
 {% endblock %}

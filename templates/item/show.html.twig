@@ -6,76 +6,59 @@
 
     <h1>{% trans %}item{% endtrans %}</h1>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>{% trans %}id{% endtrans %}</th>
-            <td>{{ item.id }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}title{% endtrans %}</th>
-            <td>{{ item.title }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}type{% endtrans %}</th>
-            <td>{{ item.type }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}description{% endtrans %}</th>
-            <td>{{ item.description }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}area{% endtrans %}</th>
-            <td>{{ item.area }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}is.for.rent{% endtrans %}</th>
-            <td>{{ item.isForRent }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}price{% endtrans %}</th>
-            <td>{{ item.price }}</td>
-        </tr>
-        <tr>
-            <th>{% trans %}images{% endtrans %}</th>
-            <td>
-                <ul>
-                    {% for image in item.images %}
-                        <li>
-                            <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-                               target="_blank">
-                                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
-                                     alt="{{ item.title }}">
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <th>{% trans %}room.qty{% endtrans %}</th>
-            <td>{{ item.roomQty }}</td>
-        </tr>
+    <ul class="list-group">
+        <li class="list-group-item">{% trans %}id{% endtrans %}: {{ item.id }}</li>
+        <li class="list-group-item">{% trans %}title{% endtrans %}: {{ item.title }}</li>
+        <li class="list-group-item">{% trans %}type{% endtrans %}: {{ item.type }}</li>
+        <li class="list-group-item">{% trans %}description{% endtrans %}: {{ item.description }}</li>
+        <li class="list-group-item">{% trans %}area{% endtrans %}: {{ item.area }}</li>
+        <li class="list-group-item">{% trans %}is.for.rent{% endtrans %}: {{ item.isForRent }}</li>
+        <li class="list-group-item">{% trans %}price{% endtrans %}: {{ item.price }}</li>
+        {% if (item.images) %}
+            <li class="list-group-item">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for key, image in item.images %}
+                            <div class="text-center carousel-item{% if (key == 0) %} active{% endif %}">
+                                <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                                   target="_blank">
+                                    <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
+                                         alt="{{ item.title }}">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if item.images|length > 1 %}
+                        <a class="carousel-control-prev btn-dark" href="#carouselExampleControls" role="button"
+                           data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next btn-dark" href="#carouselExampleControls" role="button"
+                           data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endif %}
+        <li class="list-group-item">{% trans %}room.qty{% endtrans %}: {{ item.roomQty }}</li>
 
         {% if item.location %}
-            <tr>
-                <th>{% trans %}location{% endtrans %}</th>
-                <td>
-                    {% for field in item.location %}
-                        {{ field }}
-                    {% endfor %}
-                </td>
-            </tr>
+            <li class="list-group-item">{% trans %}location{% endtrans %}:
+                {% for field in item.location %}
+                    {{ field }}
+                {% endfor %}
+            </li>
         {% endif %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
-    {% if app.user %}
-        {% if item.user.id == app.user.id %}
-            <a href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
-            {{ include('item/_delete_form.html.twig') }}
-        {% endif %}
-    {% endif %}
-
+        <li class="list-group-item"><a class="btn btn-primary float-left" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
+            {% if app.user %}
+                {% if item.user.id == app.user.id %}
+                    <a class="btn btn-primary float-left" href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                    {{ include('item/_delete_form.html.twig') }}
+                {% endif %}
+            {% endif %}</li>
+    </ul>
 {% endblock %}

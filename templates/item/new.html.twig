@@ -8,5 +8,5 @@
 
     {{ include('item/_form.html.twig') }}
 
-    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+    <a class="btn btn-primary" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
 {% endblock %}

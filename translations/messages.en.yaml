@@ -79,3 +79,4 @@ page.error.text: There is unexpected error on the page
 page.not.found: Page not found
 page.not.found.text: The requested page couldn't be located. Checkout for any URL misspelling or
 return.homepage: return to the homepage
+homepage: Home

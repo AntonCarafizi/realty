@@ -8,7 +8,7 @@
 
     {{ include('item/_form.html.twig', {'button_label': 'update.item'|trans}) }}
 
-    <a href="{{ path('item_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+    <a class="btn btn-primary" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
 
     {{ include('item/_delete_form.html.twig') }}
 {% endblock %}

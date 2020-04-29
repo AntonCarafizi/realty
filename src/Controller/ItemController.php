@@ -27,12 +27,17 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="search", methods={"GET"})
+     * @Route("/search/filter/{filter}/{page}", name="search", methods={"GET"}, defaults={"page"="1"}, requirements={"page"="\d+"})
+     * @param Request $request
+     * @param ItemRepository $itemRepository
+     * @param PaginatorInterface $paginator
+     * @param $filter
+     * @param $page
+     * @return Response
      */
-    public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator): Response
+    public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator, $filter, $page): Response
     {
         $user = $this->getUser();
-        $queryFilter = $request->query->get('filter');
         $now = new \DateTime("now");
         $filterSet = [
             'sale' => ['is_for_rent' => 0],
@@ -44,20 +49,20 @@ class ItemController extends AbstractController
             'new' => ['created' => $now]
         ];
         $criteria = [];
-        if ($queryFilter) {
+        if ($filter) {
             foreach ($filterSet as $key => $value) {
-                if ($queryFilter == $key) {
+                if ($filter == $key) {
                     $criteria = $value;
                 }
             }
         }
 
-        $query = ($queryFilter) ? $itemRepository->findBy($criteria) : $itemRepository->findAll();
+        $query = (!empty($criteria)) ? $itemRepository->findBy($criteria) : $itemRepository->findAll();
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            1/*limit per page*/
+            $request->query->getInt('page', $page)/*page number*/,
+            3/*limit per page*/
         );
         $pagination->setParam('q', null);
 

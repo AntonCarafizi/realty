@@ -4,7 +4,9 @@
 
 {% block body %}
     {% block homepage %}
-        <span>{% trans %}go.to{% endtrans %}</span> <a
-            href="{{ path('item_index') }}">{% trans %}items.page{% endtrans %}</a>
+        <div class="float-left">
+        <span>{% trans %}go.to{% endtrans %}</span>
+            <a href="{{ path('item_index') }}">{% trans %}items.page{% endtrans %}</a>
+        </div>
     {% endblock %}
 {% endblock %}

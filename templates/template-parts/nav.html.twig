@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('item_index') }}">{{ app.request.server.get('SERVER_NAME')|upper }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filter
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}all.items{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'sale'}) }}">{% trans %}items.for.sale{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'rent'}) }}">{% trans %}items.for.rent{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'house'}) }}">{% trans %}house{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'apartment'}) }}">{% trans %}apartment{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'garage'}) }}">{% trans %}garage{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'new'}) }}">{% trans %}new.items{% endtrans %}</a>
+                        {% if app.user %}
+                            <a class="dropdown-item" href="{{ path('item_search', {'filter' : 'user'}) }}">{% trans %}my.items{% endtrans %}</a>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

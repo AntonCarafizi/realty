@@ -2,57 +2,54 @@
 <html lang="{{ app.request.locale }}">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 </head>
 <body>
+
 {% block header %}
-    <header>
-        <h1>{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} {% trans %}your.best.realty.partner{% endtrans %}</h1>
+    <header class="container d-flex justify-content-center p-3">
+        <h1 class="h1">{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} {% trans %}your.best.realty.partner{% endtrans %}</h1>
     </header>
 {% endblock %}
 {% block navigation %}
-    <nav>
-        <ul>
-            <li><a href="{{ path('item_search') }}">{% trans %}all.items{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'sale'}) }}">{% trans %}items.for.sale{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'rent'}) }}">{% trans %}items.for.rent{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'house'}) }}">{% trans %}house{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'apartment'}) }}">{% trans %}apartment{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'garage'}) }}">{% trans %}garage{% endtrans %}</a></li>
-            <li><a href="{{ path('item_search', {'filter' : 'new'}) }}">{% trans %}new.items{% endtrans %}</a></li>
-        </ul>
-    </nav>
+    {{ include('template-parts/nav.html.twig') }}
 {% endblock %}
 <main>
-    <div role="main">
+    <div role="main" class="container">
         {% block user %}
-            {% if app.user %}
-                <div class="mb-3"><span>{% trans %}you.are.logged.in.as{% endtrans %}</span>
-                    <a href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>,
-                    <a href="{{ path('item_search', {'filter' : 'user'}) }}">{% trans %}my.items{% endtrans %}</a>,
-                    <a href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
-                </div>
-            {% else %}
-                <div class="mb-3">
-                    {% if app.request.attributes.get('_route') != 'app_login' %}
-                        <a href="{{ path('app_login') }}">{% trans %}sign.in{% endtrans %}</a>
-                    {% endif %}
-                    {% if app.request.attributes.get('_route') != 'app_register' %}
-                        <a href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
-                    {% endif %}
-                </div>
-            {% endif %}
+            <div class="float-right">
+                {% if app.user %}
+                    <div class="mb-3"><span>{% trans %}you.are.logged.in.as{% endtrans %}</span>
+                        <a class="btn" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
+                        <a class="btn" href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        {% if app.request.attributes.get('_route') != 'app_login' %}
+                            <a class="btn" href="{{ path('app_login') }}">{% trans %}sign.in{% endtrans %}</a>
+                        {% endif %}
+                        {% if app.request.attributes.get('_route') != 'app_register' %}
+                            <a class="btn" href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
         {% endblock %}
         {% block body %}
         {% endblock %}
     </div>
 </main>
 {% block footer %}
-    <footer>
+    <footer class="footer container d-flex justify-content-center">
         <span>&copy; {{ "now"|date("Y") }} - {{ app.request.server.get('SERVER_NAME')|upper }}</span>
     </footer>
 {% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
 </body>
 </html>

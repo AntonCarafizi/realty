@@ -6,6 +6,18 @@
 
     <h1>{% trans %}create.new.item{% endtrans %}</h1>
 
+    {% if (app.request.server.get('REDIRECT_STATUS') == '200' and app.request.server.get('REQUEST_METHOD') == 'POST') %}
+        <div class="alert alert-success" role="alert">
+            {% trans %}item.create.success{% endtrans %}.
+        </div>
+    {% endif %}
+
+    {% if (app.request.server.get('REDIRECT_STATUS') != '200' and app.request.server.get('REQUEST_METHOD') == 'POST') %}
+        <div class="alert alert-danger" role="alert">
+            {% trans %}item.create.error{% endtrans %}.
+        </div>
+    {% endif %}
+
     {{ include('item/_form.html.twig') }}
 
     <a class="btn btn-primary" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>

@@ -1,10 +1,5 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('item_index', {'_locale' : app.request.locale}) }}">return to the homepage</a>.
-    </p>
+    <h1>{% trans %}page.forbidden{% endtrans %}</h1>
+    <p>{% trans %}page.forbidden.text{% endtrans %} <a href="{{ path('item_index', {'_locale' : app.request.locale}) }}">{% trans %}return.homepage{% endtrans %}</a>.</p>
 {% endblock %}

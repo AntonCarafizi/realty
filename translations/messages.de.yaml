@@ -77,5 +77,22 @@ page.error: Seite Fehler
 page.error.text: Es gibt eine Fehler auf die Seite
 page.not.found: Seite nicht gefunden
 page.not.found.text: Die angeforderte Seite konnte nicht gefunden werden. Überprüfen Sie die URL auf Rechtschreibfehler oder
+page.forbidden: Seite ist verboten
+page.forbidden.text: Die angeforderte Seite ist verboten.
 return.homepage: gehen Sie zur Startseite zurück
 homepage: Home
+new.message: Neu Nachricht
+text: Text
+delete.item.sure: Sind Sie sicher diese Artikel zu löschen?
+item.update.success: Artikel erfolgreich aktualisiert
+item.update.error: Artikel nicht aktualisiert. Fehler
+item.create.success: Artikel erfolgreich erstellt
+item.create.error: Artikel nicht erstellt. Fehler
+user.update.success: Benutzer erfolgreich aktualisiert
+user.update.error: Benutzer nicht aktualisiert. Fehler
+user.create.success: Benutzer erfolgreich erstellt
+user.create.error: Benutzer nicht erstellt. Fehler
+message.update.success: Nachricht erfolgreich aktualisiert
+message.update.error: Nachricht nicht aktualisiert. Fehler
+message.create.success: Nachricht erfolgreich erstellt
+message.create.error: Nachricht nicht erstellt. Fehler

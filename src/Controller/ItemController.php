@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use App\Service\ResponseService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ImageService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/item",  name="item_")
@@ -75,7 +77,7 @@ class ItemController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, AuthenticationUtils $authenticationUtils, ImageService $imageService): Response
+    public function new(Request $request, AuthenticationUtils $authenticationUtils, ResponseService $responseService, ImageService $imageService): Response
     {
         $item = new Item();
         $user = $this->getUser();
@@ -92,7 +94,13 @@ class ItemController extends AbstractController
             $entityManager->persist($item);
             $entityManager->flush();
 
-            return $this->redirectToRoute('item_index');
+            $status = $responseService->getStatus($request);
+
+            return $this->redirectToRoute('item_show', [
+                'id' => $item->getId(),
+                'action' => 'create',
+                'status' => $status
+            ]);
         }
 
         return $this->render('item/new.html.twig', [
@@ -115,12 +123,12 @@ class ItemController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Item $item, ImageService $imageService): Response
+    public function edit(Request $request, Item $item, ResponseService $responseService, ImageService $imageService): Response
     {
 
         if ($this->getUser()) {
             if ($item->getUser()->getId() != $this->getUser()->getId()) {
-                return $this->redirectToRoute('app_login');
+                return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
             }
         }
 
@@ -156,7 +164,13 @@ class ItemController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            return $this->redirectToRoute('item_show', ['id' => $item->getId()]);
+            $status = $responseService->getStatus($request);
+
+            return $this->redirectToRoute('item_show', [
+                'id' => $item->getId(),
+                'action' => 'update',
+                'status' => $status
+            ]);
         }
 
 

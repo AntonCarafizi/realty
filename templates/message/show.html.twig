@@ -1,0 +1,42 @@
+{% set action = app.request.query.get("action") %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Message{% endblock %}
+
+{% block body %}
+    <h1>Message</h1>
+
+    {% if (app.request.query.get('status') == 'success') %}
+        <div class="alert alert-success" role="alert">
+            {{ ('message.' ~ action ~ '.success')|trans }}.
+        </div>
+    {% elseif (app.request.query.get('status') == 'error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ ('message.' ~ action ~ '.error')|trans }}.
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ message.id }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ message.text }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ message.created ? message.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {# <a href="{{ path('message_index', {'item_id' : app.request.attributes.get('item_id')}) }}">back to list</a> #}
+
+    <a class="btn btn-primary" href="{{ path('message_edit', {'id': message.id}) }}">edit</a>
+
+    {{ include('message/_delete_form.html.twig') }}
+{% endblock %}

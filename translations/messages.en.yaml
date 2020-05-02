@@ -78,5 +78,22 @@ page.error: Page Error
 page.error.text: There is unexpected error on the page
 page.not.found: Page not found
 page.not.found.text: The requested page couldn't be located. Checkout for any URL misspelling or
+page.forbidden: Page forbidden
+page.forbidden.text: The requested page is forbidden.
 return.homepage: return to the homepage
 homepage: Home
+new.message: New message
+text: Text
+delete.item.sure: Are you sure you want to delete this item?
+item.update.success: Item successfully updated
+item.update.error: Item not updated. Error
+item.create.success: Item successfully created
+item.create.error: Item not created. Error
+user.update.success: User successfully updated
+user.update.error: User not updated. Error
+user.create.success: User successfully created
+user.create.error: User not updated. Error
+message.update.success: Message successfully updated
+message.update.error: Message not updated. Error
+message.create.success: Message successfully created
+message.create.error: Message not updated. Error

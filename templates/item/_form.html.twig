@@ -3,18 +3,33 @@
 <ul class="list-group">
     {% if (item.images) %}
         <input type="hidden" name="_token" value="{{ csrf_token('delete_image' ~ item.id) }}">
-        {% for key, image in item.images %}
-            <li class="list-group-item"><a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}" target="_blank">
-                    <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="{{ item.title }}">
-                </a>
-                {% if (item.images|length > 1) %}
-                    <button class="btn btn-primary" id="image_main" name="image_main" value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
-                    <button class="btn btn-primary" id="image_move_up" name="image_move_up" value="{{ key }}">{% trans %}move.image.up{% endtrans %}</button>
-                    <button class="btn btn-primary" id="image_move_down" name="image_move_down" value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
-                {% endif %}
-                <button name="image_delete" value="{{ key }}" class="btn btn-primary">{% trans %}delete.image{% endtrans %}</button>
-            </li>
-        {% endfor %}
+        <div class="row">
+            {% for key, image in item.images %}
+                <div class="card col-sm-12 col-md-6 col-lg-4">
+                    <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                       target="_blank">
+                        <img class="card-img-top"
+                             src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                             alt="{{ item.title }}">
+                    </a>
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        {% if (item.images|length > 1) %}
+                            <div class="btn-group mr-2" role="group" aria-label="Image modify group">
+                                <button class="btn btn-primary" id="image_main" name="image_main"
+                                        value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
+                                <button class="btn btn-primary" id="image_move_up" name="image_move_up"
+                                        value="{{ key }}">{% trans %}move.image.up{% endtrans %}</button>
+                                <button class="btn btn-primary" id="image_move_down"
+                                        name="image_move_down"
+                                        value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
+                            </div>
+                        {% endif %}
+                        <button name="image_delete" value="{{ key }}"
+                                class="btn btn-primary">{% trans %}delete.image{% endtrans %}</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 </ul>
 <button class="btn btn-primary">{{ button_label|default('save.item'|trans) }}</button>

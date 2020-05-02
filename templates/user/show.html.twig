@@ -1,24 +1,36 @@
+{% set action = app.request.query.get("action") %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{% trans %}user{% endtrans %}{% endblock %}
 
 {% block body %}
+
     <h1>{% trans %}user{% endtrans %}</h1>
+    {% if (app.request.query.get('status') == 'success') %}
+        <div class="alert alert-success" role="alert">
+            {{ ('user.' ~ action ~ '.success')|trans }}.
+        </div>
+    {% elseif (app.request.query.get('status') == 'error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ ('user.' ~ action ~ '.error')|trans }}.
+        </div>
+    {% endif %}
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+        </tr>
         </tbody>
     </table>
 
@@ -26,7 +38,8 @@
 
     {% if app.user %}
         {% if user.id == app.user.id %}
-            <a class="btn btn-primary float-left" href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit.user{% endtrans %}</a>
+            <a class="btn btn-primary float-left"
+               href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit.user{% endtrans %}</a>
             {{ include('user/_delete_form.html.twig') }}
         {% endif %}
     {% endif %}

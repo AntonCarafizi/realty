@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $lang;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="user")
+     */
+    private $messages;
+
 
     public function __construct()
     {
@@ -64,6 +69,7 @@ class User implements UserInterface
         // $this->salt = md5(uniqid('', true));
 
         $this->items = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,37 @@ class User implements UserInterface
     public function setLang(?string $lang): self
     {
         $this->lang = $lang;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
+        }
 
         return $this;
     }

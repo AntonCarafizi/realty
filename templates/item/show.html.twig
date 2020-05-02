@@ -1,13 +1,24 @@
+{% set action = app.request.query.get("action") %}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}item{% endtrans %}{% endblock %}
+{% block title %}{% trans %}item{% endtrans %} {{ item.id }}{% endblock %}
 
 {% block body %}
 
     <h1>{% trans %}item{% endtrans %}</h1>
+    {% if (app.request.query.get('status') == 'success') %}
+        <div class="alert alert-success" role="alert">
+            {{ ('item.' ~ action ~ '.success')|trans }}.
+        </div>
+    {% elseif (app.request.query.get('status') == 'error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ ('item.' ~ action ~ '.error')|trans }}.
+        </div>
+    {% endif %}
 
     <ul class="list-group">
-        <li class="list-group-item">{% trans %}id{% endtrans %}: {{ item.id }}</li>
+        <li class="list-group-item">{% trans %}user{% endtrans %}: {{ item.user.id }}</li>
         <li class="list-group-item">{% trans %}title{% endtrans %}: {{ item.title }}</li>
         <li class="list-group-item">{% trans %}type{% endtrans %}: {{ item.type }}</li>
         <li class="list-group-item">{% trans %}description{% endtrans %}: {{ item.description }}</li>
@@ -22,7 +33,8 @@
                             <div class="text-center carousel-item{% if (key == 0) %} active{% endif %}">
                                 <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
                                    target="_blank">
-                                    <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
+                                    <img class="img-fluid"
+                                         src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}"
                                          alt="{{ item.title }}">
                                 </a>
                             </div>
@@ -53,11 +65,16 @@
             </li>
         {% endif %}
 
-        <li class="list-group-item"><a class="btn btn-primary float-left" href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
+        <li class="list-group-item"><a class="btn btn-primary float-left"
+                                       href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
             {% if app.user %}
                 {% if item.user.id == app.user.id %}
-                    <a class="btn btn-primary float-left" href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                    <a class="btn btn-primary float-left"
+                       href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
                     {{ include('item/_delete_form.html.twig') }}
+                {% else %}
+                    <a class="btn btn-primary"
+                       href="{{ path('message_new', {'item_id': item.id}) }}">{% trans %}new.message{% endtrans %}</a>
                 {% endif %}
             {% endif %}</li>
     </ul>

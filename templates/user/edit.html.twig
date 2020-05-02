@@ -5,6 +5,18 @@
 {% block body %}
     <h1>{% trans %}edit.user{% endtrans %}</h1>
 
+    {% if (app.request.server.get('REDIRECT_STATUS') == '200' and app.request.server.get('REQUEST_METHOD') == 'POST') %}
+        <div class="alert alert-success" role="alert">
+            {% trans %}user.update.success{% endtrans %}.
+        </div>
+    {% endif %}
+
+    {% if (app.request.server.get('REDIRECT_STATUS') != '200' and app.request.server.get('REQUEST_METHOD') == 'POST') %}
+        <div class="alert alert-danger" role="alert">
+            {% trans %}user.update.error{% endtrans %}.
+        </div>
+    {% endif %}
+
     {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
 
     <a class="btn btn-primary" href="{{ path('user_index') }}">{% trans %}user.index{% endtrans %}</a>

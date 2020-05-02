@@ -14,33 +14,37 @@
                 {% for item in items %}
 
                     <div class="card col-sm-12 col-md-6 col-lg-4">
+                        {% if (item.images) %}
                         <div class="text-center">
                         <a href="{{ path('item_show', {'id': item.id}) }}">
                             <img class="card-img-top" src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="{{ item.title }}" alt="Card image cap">
                         </a>
                         </div>
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ item.title }}</h5>
                             <ul class="list-group">
-                                <li class="list-group-item">{{ item.type }}</li>
-                                <li class="list-group-item">{{ item.description }}</li>
-                                <li class="list-group-item">{{ item.area }}</li>
-                                <li class="list-group-item">{% if (item.isForRent == 1) %}
+                                <li class="list-group-item">{% trans %}type{% endtrans %}: {{ item.type }}</li>
+                                <li class="list-group-item">{% trans %}description{% endtrans %}: {{ item.description }}</li>
+                                <li class="list-group-item">{% trans %}area{% endtrans %}: {{ item.area }}</li>
+                                <li class="list-group-item">{% trans %}is.for.rent{% endtrans %}:
+                                    {% if (item.isForRent == 1) %}
                                         {% trans %}rent{% endtrans %}
                                     {% else %}
                                         {% trans %}sale{% endtrans %}
                                     {% endif %}
                                 </li>
-                                <li class="list-group-item">{{ item.price }}</li>
-                                <li class="list-group-item">{{ item.roomQty }}</li>
-                                <li class="list-group-item">{% if item.created.date|date("m/d/Y") == "now"|date("m/d/Y") %}
+                                <li class="list-group-item">{% trans %}price{% endtrans %}: {{ item.price }}</li>
+                                <li class="list-group-item">{% trans %}room.qty{% endtrans %}: {{ item.roomQty }}</li>
+                                <li class="list-group-item">
+                                    {% if item.created.date|date("m/d/Y") == "now"|date("m/d/Y") %}
                                         {% trans %}new{% endtrans %}
                                     {% else %}
                                         {{ item.created.date|date("m/d/Y") }}
                                     {% endif %}
                                 </li>
                                 {% if item.location %}
-                                    <li class="list-group-item">
+                                    <li class="list-group-item">{% trans %}location{% endtrans %}:
                                         {% for field in item.location %}
                                             {{ field }}
                                         {% endfor %}
@@ -54,6 +58,8 @@
                                             <a class="btn btn-primary"
                                                href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
                                             {{ include('item/_delete_form.html.twig') }}
+                                        {% else %}
+                                            <a class="btn btn-primary" href="{{ path('message_new', {'item_id': item.id}) }}">{% trans %}new.message{% endtrans %}</a>
                                         {% endif %}
                                     {% endif %}
                                 </li>

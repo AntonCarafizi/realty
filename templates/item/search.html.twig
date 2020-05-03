@@ -15,17 +15,29 @@
 
                     <div class="card col-sm-12 col-md-6 col-lg-4">
                         {% if (item.images) %}
-                        <div class="text-center">
-                        <a href="{{ path('item_show', {'id': item.id}) }}">
-                            <img class="card-img-top" src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="{{ item.title }}" alt="Card image cap">
-                        </a>
-                        </div>
+                            <div class="text-center">
+                                <a href="{{ path('item_show', {'id': item.id}) }}">
+                                    <img class="card-img-top"
+                                         src="{{ asset('media/image/' ~ item.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                                         alt="{{ item.title }}" alt="Card image cap">
+                                </a>
+                            </div>
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ item.title }}</h5>
                             <ul class="list-group">
-                                <li class="list-group-item">{% trans %}type{% endtrans %}: {{ item.type }}</li>
-                                <li class="list-group-item">{% trans %}description{% endtrans %}: {{ item.description }}</li>
+                                <li class="list-group-item">{% trans %}type{% endtrans %}:
+                                    {% if (item.type == 0) %}
+                                        {% trans %}apartment{% endtrans %}
+                                    {% elseif (item.type == 1) %}
+                                        {% trans %}house{% endtrans %}
+                                    {% elseif (item.type == 2) %}
+                                        {% trans %}garage{% endtrans %}
+                                    {% endif %}
+                                </li>
+                                <li class="list-group-item">{% trans %}user{% endtrans %}: {{ item.user.username }}</li>
+                                <li class="list-group-item">{% trans %}description{% endtrans %}
+                                    : {{ item.description }}</li>
                                 <li class="list-group-item">{% trans %}area{% endtrans %}: {{ item.area }}</li>
                                 <li class="list-group-item">{% trans %}is.for.rent{% endtrans %}:
                                     {% if (item.isForRent == 1) %}
@@ -54,13 +66,24 @@
                                     <a class="btn btn-primary"
                                        href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
                                     {% if app.user %}
-                                        {% if item.user.id == app.user.id %}
+                                        {% if item.user.id == app.user.id or 'ROLE_ADMIN' in app.user.roles %}
                                             <a class="btn btn-primary"
                                                href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
                                             {{ include('item/_delete_form.html.twig') }}
                                         {% else %}
-                                            <a class="btn btn-primary" href="{{ path('message_new', {'item_id': item.id}) }}">{% trans %}new.message{% endtrans %}</a>
+                                            <a class="btn btn-primary"
+                                               href="{{ path('message_new', {'item_id': item.id}) }}">{% trans %}new.message{% endtrans %}</a>
                                         {% endif %}
+                                        <form method="post">
+                                            <button class="btn border-0 btn-outline-0" id="item_like" name="item_like"
+                                                    value="{{ item.id }}">
+                                                {% if (item.id in app.user.likedItems) %}
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                {% else %}
+                                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                                {% endif %}
+                                            </button>
+                                        </form>
                                     {% endif %}
                                 </li>
                             </ul>

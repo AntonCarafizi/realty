@@ -18,9 +18,17 @@
     {% endif %}
 
     <ul class="list-group">
-        <li class="list-group-item">{% trans %}user{% endtrans %}: {{ item.user.id }}</li>
+        <li class="list-group-item">{% trans %}user{% endtrans %}: {{ item.user.username }}</li>
         <li class="list-group-item">{% trans %}title{% endtrans %}: {{ item.title }}</li>
-        <li class="list-group-item">{% trans %}type{% endtrans %}: {{ item.type }}</li>
+        <li class="list-group-item">{% trans %}type{% endtrans %}:
+            {% if (item.type == 0) %}
+                {% trans %}apartment{% endtrans %}
+            {% elseif (item.type == 1) %}
+                {% trans %}house{% endtrans %}
+            {% elseif (item.type == 2) %}
+                {% trans %}garage{% endtrans %}
+            {% endif %}
+        </li>
         <li class="list-group-item">{% trans %}description{% endtrans %}: {{ item.description }}</li>
         <li class="list-group-item">{% trans %}area{% endtrans %}: {{ item.area }}</li>
         <li class="list-group-item">{% trans %}is.for.rent{% endtrans %}: {{ item.isForRent }}</li>
@@ -68,7 +76,7 @@
         <li class="list-group-item"><a class="btn btn-primary float-left"
                                        href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
             {% if app.user %}
-                {% if item.user.id == app.user.id %}
+                {% if item.user.id == app.user.id or 'ROLE_ADMIN' in app.user.roles %}
                     <a class="btn btn-primary float-left"
                        href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
                     {{ include('item/_delete_form.html.twig') }}

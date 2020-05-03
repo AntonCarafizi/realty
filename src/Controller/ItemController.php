@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Item;
+use App\Entity\User;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use App\Security\EditEntityAccess;
 use App\Service\ResponseService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,8 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ImageService;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/item",  name="item_")
@@ -29,7 +29,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/search/filter/{filter}/{page}", name="search", methods={"GET"}, defaults={"page"="1"}, requirements={"page"="\d+"})
+     * @Route("/search/filter/{filter}/{page}", name="search", methods={"GET", "POST"}, defaults={"page"="1"}, requirements={"page"="\d+"})
      * @param Request $request
      * @param ItemRepository $itemRepository
      * @param PaginatorInterface $paginator
@@ -39,6 +39,7 @@ class ItemController extends AbstractController
      */
     public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator, $filter, $page): Response
     {
+
         $user = $this->getUser();
         $now = new \DateTime("now");
         $filterSet = [
@@ -59,6 +60,16 @@ class ItemController extends AbstractController
             }
         }
 
+
+        if ($request->get('item_like') !== null) {
+            $userRepository = $this->getDoctrine()->getRepository(User::class)->find($user);
+            $getLikedItems = $userRepository->getLikedItems();
+            array_push($getLikedItems, $request->get('item_like'));
+            $userRepository->setLikedItems($getLikedItems);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+
         $query = (!empty($criteria)) ? $itemRepository->findBy($criteria) : $itemRepository->findAll();
 
         $pagination = $paginator->paginate(
@@ -77,7 +88,7 @@ class ItemController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, AuthenticationUtils $authenticationUtils, ResponseService $responseService, ImageService $imageService): Response
+    public function new(Request $request, ResponseService $responseService, ImageService $imageService): Response
     {
         $item = new Item();
         $user = $this->getUser();
@@ -123,24 +134,20 @@ class ItemController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Item $item, ResponseService $responseService, ImageService $imageService): Response
+    public function edit(Request $request, Item $item, ResponseService $responseService, ImageService $imageService, EditEntityAccess $editEntityAccess): Response
     {
 
-        if ($this->getUser()) {
-            if ($item->getUser()->getId() != $this->getUser()->getId()) {
-                return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
-            }
-        }
+        $editEntityAccess->getAccess($item->getUser());
 
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        $item_images = $item->getImages();
+        $itemImages = $item->getImages();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFiles = $form->get('images')->getData();
-            $form_images = $imageService->uploadImages($imageFiles);
-            $images = array_merge($item_images, $form_images);
+            $formImages = $imageService->uploadImages($imageFiles);
+            $images = array_merge($itemImages, $formImages);
 
             if ($request->get('image_delete') !== null) {
                 if ($this->isCsrfTokenValid('delete_image' . $item->getId(), $request->request->get('_token'))) {

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Security\EditEntityAccess;
 use App\Service\ResponseService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,13 +70,10 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, ResponseService $responseService, User $user): Response
+    public function edit(Request $request, ResponseService $responseService, User $user, EditEntityAccess $editEntityAccess): Response
     {
-        if ($this->getUser()) {
-            if ($user->getId() != $this->getUser()->getId()) {
-                return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
-            }
-        }
+
+        $editEntityAccess->getAccess($user);
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

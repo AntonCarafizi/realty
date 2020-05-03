@@ -61,6 +61,11 @@ class User implements UserInterface
      */
     private $messages;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $likedItems = [];
+
 
     public function __construct()
     {
@@ -205,6 +210,18 @@ class User implements UserInterface
                 $message->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLikedItems(): ?array
+    {
+        return $this->likedItems;
+    }
+
+    public function setLikedItems(array $likedItems): self
+    {
+        $this->likedItems = $likedItems;
 
         return $this;
     }

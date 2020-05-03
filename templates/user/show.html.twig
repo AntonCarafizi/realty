@@ -37,7 +37,7 @@
     <a class="btn btn-primary float-left" href="{{ path('user_index') }}">{% trans %}user.index{% endtrans %}</a>
 
     {% if app.user %}
-        {% if user.id == app.user.id %}
+        {% if user.id == app.user.id or 'ROLE_ADMIN' in app.user.roles %}
             <a class="btn btn-primary float-left"
                href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit.user{% endtrans %}</a>
             {{ include('user/_delete_form.html.twig') }}

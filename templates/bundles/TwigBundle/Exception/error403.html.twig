@@ -1,4 +1,9 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}page.forbidden{% endtrans %}
+{% endblock %}
+
 {% block body %}
     <h1>{% trans %}page.forbidden{% endtrans %}</h1>
     <p>{% trans %}page.forbidden.text{% endtrans %} <a href="{{ path('item_index', {'_locale' : app.request.locale}) }}">{% trans %}return.homepage{% endtrans %}</a>.</p>

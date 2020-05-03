@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
-    "jquery": "^1.12.4",
+    "jquery": "^3.5.0",
     "lg-autoplay": "^1.0.4",
     "lg-fullscreen": "^1.1.0",
     "lg-hash": "^1.0.4",

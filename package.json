@@ -14,7 +14,7 @@
     "webpack-notifier": "^1.8.0"
   },
   "dependencies": {
-    "jquery": "^1.12.4",
+    "jquery": "^3.5.0",
     "lg-autoplay": "^1.0.4",
     "lg-fullscreen": "^1.1.0",
     "lg-hash": "^1.0.4",

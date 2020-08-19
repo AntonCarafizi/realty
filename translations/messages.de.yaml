@@ -27,8 +27,8 @@ item.index: Artikel index
 user.index: Benutzer index
 new.item: Neu Artikel
 new.items: Neue Artikel
-move.image.up: Move image up
-move.image.down: Move image down
+move.image.up: Bild nach oben
+move.image.down: Bild nach unten
 register: Registrieren
 login: Login
 sign.in: Anmelden

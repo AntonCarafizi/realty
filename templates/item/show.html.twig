@@ -74,11 +74,15 @@
         {% endif %}
 
         <li class="list-group-item"><a class="btn btn-primary float-left"
-                                       href="{{ path('item_search', {'filter' : 'all'}) }}">{% trans %}item.index{% endtrans %}</a>
+                                       href="{{ path('item_search', {'filter' : 'all'}) }}" title="{% trans %}item.index{% endtrans %}">
+                <i class="fa fa-list"></i>
+            </a>
             {% if app.user %}
                 {% if item.user.id == app.user.id or 'ROLE_ADMIN' in app.user.roles %}
                     <a class="btn btn-primary float-left"
-                       href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                       href="{{ path('item_edit', {'id': item.id}) }}" title="{% trans %}edit.item{% endtrans %}">
+                        <i class="fa fa-edit"></i>
+                    </a>
                     {{ include('item/_delete_form.html.twig') }}
                 {% else %}
                     <a class="btn btn-primary"

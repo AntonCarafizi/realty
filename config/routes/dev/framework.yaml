@@ -1,5 +1,3 @@
 _errors:
     resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
-    prefix:
-        en: '/_error' # don't prefix URLs for English, the default locale
-        de: '/de/_error'
+    prefix: /_error

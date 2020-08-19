@@ -9,7 +9,6 @@
     {% endblock %}
 </head>
 <body>
-
 {% block header %}
     <header class="container d-flex justify-content-center p-3">
         <h1 class="h1">{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} {% trans %}your.best.realty.partner{% endtrans %}</h1>
@@ -18,7 +17,7 @@
 {% block navigation %}
     {{ include('template-parts/nav.html.twig') }}
 {% endblock %}
-<main>
+<main class="min-vh-100">
     <div role="main" class="container">
         {% block user %}
             <div class="float-right">
@@ -44,7 +43,7 @@
     </div>
 </main>
 {% block footer %}
-    <footer class="footer container d-flex justify-content-center">
+    <footer class="footer container d-flex justify-content-center p-4">
         <span>&copy; {{ "now"|date("Y") }} - {{ app.request.server.get('SERVER_NAME')|upper }}</span>
     </footer>
 {% endblock %}

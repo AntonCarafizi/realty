@@ -63,19 +63,27 @@
                                     </li>
                                 {% endif %}
                                 <li class="list-group-item">
-                                    <a class="btn btn-primary"
-                                       href="{{ path('item_show', {'id': item.id}) }}">{% trans %}show.item{% endtrans %}</a>
+                                    <a class="btn btn-outline-primary float-left"
+                                       href="{{ path('item_show', {'id': item.id}) }}" title="{% trans %}show.item{% endtrans %}" role="button">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                     {% if app.user %}
                                         {% if item.user.id == app.user.id or 'ROLE_ADMIN' in app.user.roles %}
-                                            <a class="btn btn-primary"
-                                               href="{{ path('item_edit', {'id': item.id}) }}">{% trans %}edit.item{% endtrans %}</a>
+                                            <a class="btn btn-outline-primary float-left"
+                                               href="{{ path('item_edit', {'id': item.id}) }}" title="{% trans %}edit.item{% endtrans %}" role="button">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
                                             {{ include('item/_delete_form.html.twig') }}
                                         {% else %}
-                                            <a class="btn btn-primary"
-                                               href="{{ path('message_new', {'item_id': item.id}) }}">{% trans %}new.message{% endtrans %}</a>
+                                            <a class="btn btn-outline-primary float-left"
+                                               href="{{ path('message_new', {'item_id': item.id}) }}" title="{% trans %}new.message{% endtrans %}" role="button">
+                                                <i class="fa fa-envelope"></i>
+                                            </a>
                                         {% endif %}
                                         <form method="post">
-                                            <button class="btn border-0 btn-outline-0" id="item_like" name="item_like"
+                                            <button class="btn btn-outline-primary"
+                                                    id="item_like"
+                                                    name="{% if (item.id in app.user.likedItems) %}item_unlike{% else %}item_like{% endif %}"
                                                     value="{{ item.id }}">
                                                 {% if (item.id in app.user.likedItems) %}
                                                     <i class="fa fa-heart" aria-hidden="true"></i>
@@ -97,7 +105,9 @@
         {% endif %}
     </div>
     {% if app.user %}
-        <a class="btn btn-primary" href="{{ path('item_new') }}">{% trans %}create.new.item{% endtrans %}</a>
+        <a class="btn btn-outline-primary" href="{{ path('item_new') }}" title="{% trans %}create.new.item{% endtrans %}">
+            <i class="fa fa-plus"></i>
+        </a>
     {% endif %}
 
 {% endblock %}

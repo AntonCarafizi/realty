@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use App\Security\EditEntityAccess;
+use App\Service\LikeItemService;
 use App\Service\ResponseService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,9 +36,10 @@ class ItemController extends AbstractController
      * @param PaginatorInterface $paginator
      * @param $filter
      * @param $page
+     * @param LikeItemService $likeItemService
      * @return Response
      */
-    public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator, $filter, $page): Response
+    public function search(Request $request, ItemRepository $itemRepository, PaginatorInterface $paginator, $filter, $page, LikeItemService $likeItemService): Response
     {
 
         $user = $this->getUser();
@@ -60,14 +62,12 @@ class ItemController extends AbstractController
             }
         }
 
-
         if ($request->get('item_like') !== null) {
-            $userRepository = $this->getDoctrine()->getRepository(User::class)->find($user);
-            $getLikedItems = $userRepository->getLikedItems();
-            array_push($getLikedItems, $request->get('item_like'));
-            $userRepository->setLikedItems($getLikedItems);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
+            $likeItemService->likeItem($request->get('item_like'));
+        }
+
+        if ($request->get('item_unlike') !== null) {
+            $likeItemService->unlikeItem($request->get('item_unlike'));
         }
 
         $query = (!empty($criteria)) ? $itemRepository->findBy($criteria) : $itemRepository->findAll();

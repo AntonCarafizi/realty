@@ -16,21 +16,31 @@
                         {% if (item.images|length > 1) %}
                             <div class="btn-group mr-2" role="group" aria-label="Image modify group">
                                 <button class="btn btn-primary" id="image_main" name="image_main"
-                                        value="{{ key }}">{% trans %}main.image{% endtrans %}</button>
+                                        value="{{ key }}" title="{% trans %}main.image{% endtrans %}">
+                                    <i class="fa fa-check"></i>
+                                </button>
                                 <button class="btn btn-primary" id="image_move_up" name="image_move_up"
-                                        value="{{ key }}">{% trans %}move.image.up{% endtrans %}</button>
+                                        value="{{ key }}" title="{% trans %}move.image.up{% endtrans %}">
+                                    <i class="fa fa-step-backward"></i>
+                                </button>
                                 <button class="btn btn-primary" id="image_move_down"
                                         name="image_move_down"
-                                        value="{{ key }}">{% trans %}move.image.down{% endtrans %}</button>
+                                        value="{{ key }}" title="{% trans %}move.image.down{% endtrans %}">
+                                    <i class="fa fa-step-forward"></i>
+                                </button>
                             </div>
                         {% endif %}
                         <button name="image_delete" value="{{ key }}"
-                                class="btn btn-primary">{% trans %}delete.image{% endtrans %}</button>
+                                class="btn btn-primary float-right" title="{% trans %}delete.image{% endtrans %}">
+                            <i class="fa fa-trash" ></i>
+                        </button>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
 </ul>
-<button class="btn btn-primary">{{ button_label|default('save.item'|trans) }}</button>
+<button class="btn btn-primary float-left" title="{{ button_label|default('save.item'|trans) }}">
+    <i class="fa fa-save"></i>
+</button>
 {{ form_end(form) }}
